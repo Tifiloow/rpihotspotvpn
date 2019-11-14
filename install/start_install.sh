@@ -12,7 +12,7 @@ fi
 
 sudo npm install body-parser mongoose bcryptjs express jsonwebtoken -y
 
-sudo install.py dhcpcd
+sudo install.py dhcpcd -hadrien
 
 sudo service dhcpcd restart
 
@@ -20,26 +20,26 @@ sudo service dhcpcd restart
 
 
 sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
-sudo install.py dnsmasq 
+sudo install.py dnsmasq -copier coller fichier
 
 
 sudo systemctl start dnsmasq
 sudo systemctl reload dnsmasq
 
-sudo install.py hostapdconf
+sudo install.py hostapdconf - copier coller .conf
 
 
-sudo install.py daemonhostapd
+sudo install.py daemonhostapd -adrien
 
 
 sudo systemctl unmask hostapd
 sudo systemctl enable hostapd
 sudo systemctl start hostapd
 
-sudo install.py forward
+sudo install.py forward - adrien
 sudo iptables -t nat -A  POSTROUTING -o eth0 -j MASQUERADE
 sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"
 
-sudo install.py restore
+sudo install.py restore - adrien
 #https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md
 
