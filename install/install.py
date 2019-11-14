@@ -58,7 +58,6 @@ elif argument[0] == "forward":
 
 '''
 Edit /etc/sysctl.conf and uncomment this line:
-
 net.ipv4.ip_forward=1
 '''
 elif argument[0] == "restore":
