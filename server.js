@@ -10,19 +10,29 @@ var userroute = require('./routes/user');
 bodyParser = require('body-parser');
 app = express();
 apiroute = require('./routes/api')
-mongoose.connect(config.database,{
-  useNewUrlParser: true,
-  useCreateIndex: true,
-});
 
-mongoose.connect(config.database)
-  .then(() => {
-    console.log("Mongodb Connected ! ")
-  })
-  .catch((err) => {
-    console.log('Error on start: ' + err.stack);
-    process.exit(1);
-  });
+
+const options = {
+  autoIndex: false, // Don't build indexes
+  reconnectTries: 30, // Retry up to 30 times
+  reconnectInterval: 500, // Reconnect every 500ms
+  poolSize: 10, // Maintain up to 10 socket connections
+  // If not connected, return errors immediately rather than waiting for reconnect
+  bufferMaxEntries: 0
+}
+
+const connectWithRetry = () => {
+console.log('MongoDB connection with retry')
+mongoose.connect(config.database, options).then(()=>{
+  console.log('MongoDB is connected')
+}).catch(err=>{
+  console.log('MongoDB connection unsuccessful, retry after 5 seconds.')
+  setTimeout(connectWithRetry, 5000)
+})
+}
+
+connectWithRetry()
+
 
 process.on('unhandledRejection', (err, p) => {
   console.log('An unhandledRejection occurred');
