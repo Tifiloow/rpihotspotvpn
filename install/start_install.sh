@@ -12,7 +12,9 @@ fi
 
 sudo npm install body-parser mongoose bcryptjs express jsonwebtoken -y
 
-sudo install.py dhcpcd -hadrien
+
+echo 'static ip_address=192.168.4.1/24' >> /etc/dhcpcd.conf
+echo 'nohook wpa_supplicant' >> /etc/dhcpcd.conf
 
 sudo service dhcpcd restart
 
@@ -29,17 +31,23 @@ sudo systemctl reload dnsmasq
 sudo install.py hostapdconf - copier coller .conf
 
 
-sudo install.py daemonhostapd -adrien
+
+sed -i -e "s/#DAEMON_CONF/DAEMON_CONF=\"\/etc\/hostapd\/hostapd.conf\"/g" /etc/default/hostapd
 
 
 sudo systemctl unmask hostapd
 sudo systemctl enable hostapd
 sudo systemctl start hostapd
 
-sudo install.py forward - adrien
+
+sed -i -e "s/#net.ipv4.ip_forward=1/#net.ipv4.ip_forward=1/g" /etc/sysctl.conf
+
+
 sudo iptables -t nat -A  POSTROUTING -o eth0 -j MASQUERADE
 sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"
 
-sudo install.py restore - adrien
-#https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md
 
+sed -i -e "s/exit 0//g" /etc/rc.local
+echo 'iptables-restore < /etc/iptables.ipv4.nat' >> /etc/rc.local
+echo 'exit 0' >> /etc/rc.local
+#https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md
