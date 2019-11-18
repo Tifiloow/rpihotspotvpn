@@ -10,10 +10,16 @@ var userroute = require('./routes/user');
 bodyParser = require('body-parser');
 app = express();
 apiroute = require('./routes/api')
-mongoose.connect(config.database,{
-  useNewUrlParser: true,
-  useCreateIndex: true,
-});
+
+
+mongoose.connect('http://127.0.0.1:27017/test')
+  .then(() => {
+    console.log("Mongodb Connected ! ")
+  })
+  .catch((err) => {
+    console.log('Error on start: ' + err.stack);
+    process.exit(1);
+  });
 
 process.on('unhandledRejection', (err, p) => {
   console.log('An unhandledRejection occurred');
