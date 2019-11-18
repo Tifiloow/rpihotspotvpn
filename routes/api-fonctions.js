@@ -22,7 +22,7 @@ function rebootsoft(callaback) { //reboot the software : dnsmasq + hostapd
 function ethernetstatus(callback){ //get ethernetstatus.txt file data, tells if ethernet started or not
 const fileName = './ethernetstatus.txt';
 fs.readFile(fileName, 'utf8', (err,data) => {
-   if (err) {throw callback(null, err)}
+   if (err) {return callback(null, err)}
    callback(data, null)
 });
 }
