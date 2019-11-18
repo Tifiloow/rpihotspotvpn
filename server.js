@@ -15,7 +15,11 @@ mongoose.connect(config.database,{
   useCreateIndex: true,
 });
 
-
+process.on('unhandledRejection', (err, p) => {
+  console.log('An unhandledRejection occurred');
+  console.log(`Rejected Promise: ${p}`);
+  console.log(`Rejection: ${err}`);
+});
 
 
 
