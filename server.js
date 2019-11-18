@@ -10,9 +10,12 @@ var userroute = require('./routes/user');
 bodyParser = require('body-parser');
 app = express();
 apiroute = require('./routes/api')
+mongoose.connect(config.database,{
+  useNewUrlParser: true,
+  useCreateIndex: true,
+});
 
-
-mongoose.connect('http://127.0.0.1:27017/test')
+mongoose.connect(config.database)
   .then(() => {
     console.log("Mongodb Connected ! ")
   })
