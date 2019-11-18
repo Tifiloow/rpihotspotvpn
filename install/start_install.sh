@@ -1,4 +1,4 @@
-sudo apt-get update -y
+Tets
 sudo apt-get upgrade -y
 sudo apt install dnsmasq hostapd -y
 sudo systemctl stop dnsmasq
