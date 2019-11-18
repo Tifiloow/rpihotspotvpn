@@ -75,7 +75,7 @@ router.get('/ethernetstatus', async(req, res) => { //know if the ethernet is on 
 router.get('/changessid', async(req, res) => { //change the ssid of the hotspot
     if(req.query.ssid){ //verify parameters
     fonctions.changewifiname(req.query.ssid, (result, err)=>{
-    if(err) throw res.send({success: false}) //error, api returns error
+    if(err) return res.send({success: false}) //error, api returns error
     res.send({message: 'changed name, rebooting', success: true})
     fonctions.rebootsoft()  //rebootsoft -dnsmasq hostapd
     });
@@ -87,7 +87,7 @@ router.get('/changessid', async(req, res) => { //change the ssid of the hotspot
 router.get('/changepassword', async(req, res) => { //request to change wifi hotspot password
     if(req.query.password){ //verify parameters
     fonctions.changepassword(req.query.password, (result, err)=>{
-    if(err) throw res.send({error: err, success: false})//error, api returns error
+    if(err) return res.send({error: err, success: false})//error, api returns error
     res.send({message: 'changed password, rebooting', success: true})
     fonctions.rebootsoft() //reboot soft
     });

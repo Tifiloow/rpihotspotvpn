@@ -6,6 +6,8 @@ sudo systemctl stop hostapd
 sudo apt-get install openssl
 sudo apt-get install npm
 sudo npm install body-parser mongoose bcryptjs express jsonwebtoken -y
+sudo apt-get install mongodb -y
+sudo chown -R mongodb:mongodb /data/db
 #install requierements
 
 echo 'static ip_address=192.168.4.1/24' >> /etc/dhcpcd.conf

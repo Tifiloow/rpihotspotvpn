@@ -34,7 +34,11 @@ router.post('/login', async(req, res) => {
 })
 router.get('/me', auth, async(req, res) => {
     // View logged in user profile
+    try{
     res.json({success:true, user: req.user});
+    }catch(err){
+        res.json({success:false, error: err.toString()});
+    }
 })
 
 
