@@ -5,11 +5,11 @@ var config = require('./config');
 var fs = require('fs')
 var https = require('https');
 express = require('express');
- auth = require('./routes/auth')
-var userroute = require('./routes/user');
+ //auth = require('./routes/auth')
+//var userroute = require('./routes/user');
 bodyParser = require('body-parser');
 app = express();
-apiroute = require('./routes/api')
+//apiroute = require('./routes/api')
 
 
 const options = {
@@ -59,9 +59,10 @@ app.get('/', function(req, res) {
 app.get('/test', function(req, res) {
   res.json({success:true});
 });
+/*
 app.use('/user', userroute);
 app.use('/api',auth, apiroute);
-
+*/
 
 https.createServer({
   key: fs.readFileSync('server.key'),

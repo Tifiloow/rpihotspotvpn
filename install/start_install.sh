@@ -10,11 +10,7 @@ sudo apt-get install mongodb -y
 sudo chown -R mongodb:mongodb /data/db
 #install requierements
 
-echo 'static ip_address=192.168.4.1/24' >> /etc/dhcpcd.conf
-echo 'nohook wpa_supplicant' >> /etc/dhcpcd.conf
-#define static ip
 
-sudo service dhcpcd restart
 
 sudo openssl req -nodes -new -x509 -keyout server.key -out server.cert -subj "/C=FR/ST=./L=./O=./CN=." #create ssl files 
 
@@ -39,6 +35,7 @@ sudo systemctl start hostapd
 
 
 sudo sed -i -e "s/#net.ipv4.ip_forward=1/#net.ipv4.ip_forward=1/g" /etc/sysctl.conf #setting ipv4 forward
+
 
 
 sudo iptables -t nat -A  POSTROUTING -o eth0 -j MASQUERADE
