@@ -10,7 +10,7 @@ sudo apt-get install mongodb -y #problems with mongodb version - must upgrade
 sudo chown -R mongodb:mongodb /data/db
 #install requierements
 #add server.js to autostart
-
+sudo mv ../../rpihotspotvn /home/pi
 sudo openssl req -nodes -new -x509 -keyout server.key -out server.cert -subj "/C=FR/ST=./L=./O=./CN=." #create ssl files 
 
 
@@ -48,7 +48,7 @@ echo 'exit 0' >> /etc/rc.local
 #https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md
 
 
-#please add a command that edit rc.local, and autostart the server.js (with the right path)
+echo '@reboot sudo node /home/pi/rpihotspotvpn/server.js'
 
 
 echo -n "Reboot Rpi now (y/n) - Reboot it yourself to make it work if No "
