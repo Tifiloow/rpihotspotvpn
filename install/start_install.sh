@@ -6,10 +6,9 @@ sudo systemctl stop hostapd
 sudo apt-get install openssl
 sudo apt-get install npm
 sudo npm install body-parser mongoose bcryptjs express jsonwebtoken winston-y
-sudo apt-get install mongodb -y
+sudo apt-get install mongodb -y #problems with mongodb version - must upgrade
 sudo chown -R mongodb:mongodb /data/db
 #install requierements
-
 #add server.js to autostart
 
 sudo openssl req -nodes -new -x509 -keyout server.key -out server.cert -subj "/C=FR/ST=./L=./O=./CN=." #create ssl files 
@@ -41,11 +40,17 @@ sudo sed -i -e "s/#net.ipv4.ip_forward=1/#net.ipv4.ip_forward=1/g" /etc/sysctl.c
 sudo iptables -t nat -A  POSTROUTING -o eth0 -j MASQUERADE
 sudo sh -c "iptables-save > /etc/iptables.ipv4.nat" #save iptable 
 
-
 sudo sed -i -e "s/exit 0//g" /etc/rc.local #define the iptable restore
 echo 'iptables-restore < /etc/iptables.ipv4.nat' >> /etc/rc.local
+
 echo 'exit 0' >> /etc/rc.local
+
 #https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md
+
+
+#please add a command that edit rc.local, and autostart the server.js (with the right path)
+
+
 echo -n "Reboot Rpi now (y/n) - Reboot it yourself to make it work if No "
 read answer
 if [ "$answer" != "${answer#[Yy]}" ] ;then
