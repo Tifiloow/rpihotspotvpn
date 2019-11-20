@@ -48,7 +48,7 @@ echo 'exit 0' >> /etc/rc.local
 #https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md
 
 
-echo '@reboot sudo node /home/pi/rpihotspotvpn/server.js'
+echo '@reboot sudo node /home/pi/rpihotspotvpn/server.js' >> /etc/crontab
 
 
 echo -n "Reboot Rpi now (y/n) - Reboot it yourself to make it work if No "
