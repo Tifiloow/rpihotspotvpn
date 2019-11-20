@@ -15,11 +15,11 @@ var logger = winston.createLogger({
 	]
 });
 logger.info("Hello, world");
- //auth = require('./routes/auth')
-//var userroute = require('./routes/user');
+ auth = require('./routes/auth')
+var userroute = require('./routes/user');
 bodyParser = require('body-parser');
 app = express();
-//apiroute = require('./routes/api')
+apiroute = require('./routes/api')
 mongoose.connection.once('open', function() {
   logger.info('MongoDB event open');
   logger.debug('MongoDB connected [%s]', config.database);
@@ -41,7 +41,7 @@ mongoose.connection.once('open', function() {
   });
 
   // return resolve();
-  return console.log("server started");
+  return start();
 });
 
 const options = {
@@ -73,7 +73,7 @@ return mongoose.connect(config.database, options, function(err) {
 });
 
 
-
+function start(){
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -91,10 +91,10 @@ app.get('/', function(req, res) {
 app.get('/test', function(req, res) {
   res.json({success:true});
 });
-/*
+
 app.use('/user', userroute);
 app.use('/api',auth, apiroute);
-*/
+
 
 https.createServer({
   key: fs.readFileSync('server.key'),
@@ -102,4 +102,4 @@ https.createServer({
 }, app)
 .listen(config.port, function () {
   console.log(`Example app listening on port ${config.port}! Go to https://localhost:${config.port}`)
-})
+})}
