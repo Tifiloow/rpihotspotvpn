@@ -4,13 +4,45 @@ var mongoose = require('mongoose');
 var config = require('./config');
 var fs = require('fs')
 var https = require('https');
+var winston = require('winston')
 express = require('express');
+
+var logger = winston.createLogger({
+	levels: winston.config.npm.levels,
+	format: winston.format.json(),
+	transports: [
+		new winston.transports.Console({ format: winston.format.simple() })
+	]
+});
+logger.info("Hello, world");
  //auth = require('./routes/auth')
 //var userroute = require('./routes/user');
 bodyParser = require('body-parser');
 app = express();
 //apiroute = require('./routes/api')
+mongoose.connection.once('open', function() {
+  logger.info('MongoDB event open');
+  logger.debug('MongoDB connected [%s]', config.database);
 
+  mongoose.connection.on('connected', function() {
+      logger.info('MongoDB event connected');
+  });
+
+  mongoose.connection.on('disconnected', function() {
+      logger.warn('MongoDB event disconnected');
+  });
+
+  mongoose.connection.on('reconnected', function() {
+      logger.info('MongoDB event reconnected');
+  });
+
+  mongoose.connection.on('error', function(err) {
+      logger.error('MongoDB event error: ' + err);
+  });
+
+  // return resolve();
+  return console.log("server started");
+});
 
 const options = {
   autoIndex: false, // Don't build indexes
@@ -20,24 +52,24 @@ const options = {
   // If not connected, return errors immediately rather than waiting for reconnect
   bufferMaxEntries: 0
 }
-
+/*
 const connectWithRetry = () => {
 console.log('MongoDB connection with retry')
 mongoose.connect(config.database, options).then(()=>{
   console.log('MongoDB is connected')
 }).catch(err=>{
   console.log('MongoDB connection unsuccessful, retry after 5 seconds.')
-  setTimeout(connectWithRetry, 5000)
 })
 }
 
 connectWithRetry()
-
-
-process.on('unhandledRejection', (err, p) => {
-  console.log('An unhandledRejection occurred');
-  console.log(`Rejected Promise: ${p}`);
-  console.log(`Rejection: ${err}`);
+*/
+return mongoose.connect(config.database, options, function(err) {
+  if (err) {
+      logger.error('MongoDB connection error: ' + err);
+      // return reject(err);
+      process.exit(1);
+  }
 });
 
 
