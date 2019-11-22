@@ -5,13 +5,19 @@ sudo systemctl stop dnsmasq
 sudo systemctl stop hostapd
 sudo apt-get install openssl
 sudo apt-get install npm
-sudo npm install body-parser mongoose bcryptjs express jsonwebtoken winston-y
-sudo apt-get install mongodb -y #problems with mongodb version - must upgrade
-sudo chown -R mongodb:mongodb /data/db
+sudo apt-get install unzip
+sudo apt-get install openvpn -y
+sudo npm install body-parser sqlite3 bcryptjs express jsonwebtoken-y
 #install requierements
 #add server.js to autostart
 sudo mv ../../rpihotspotvn /home/pi
 sudo openssl req -nodes -new -x509 -keyout server.key -out server.cert -subj "/C=FR/ST=./L=./O=./CN=." #create ssl files 
+sudo apt-get install openvpn -y
+sudo wget https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip
+sudo apt-get install ca-certificates
+sudo mv ./ovpn.zip /etc/openvpn
+sudo unzip /etc/openvpn/ovpn.zip
+
 
 
 sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig #config dnsmasq

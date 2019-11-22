@@ -1,63 +1,49 @@
-const mongoose = require('mongoose')
-const validator = require('validator')
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-config = require('../config')
-const userSchema = mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    email: {
-        type: String,
-        required: true,
-        lowercase: true,
-        validate: value => {
-            if (!validator.isEmail(value)) {
-                throw new Error({error: 'Invalid Email address'})
-            }
-        },
-        unique: false,
-    },
-    password: {
-        type: String,
-        required: true,
-        minLength: 7
-    }
-})
+const  sqlite3  =  require('sqlite3').verbose();
+const database = new sqlite3.Database("../rpihotspotvpn.db");
+const  createUsersTable  = () => {
+    const  sqlQuery  =  `
+        CREATE TABLE IF NOT EXISTS users (
+        id integer PRIMARY KEY,
+        name text,
+        email text UNIQUE,
+        password text)`;
 
-userSchema.pre('save', async function (next) {
-    // Hash the password before saving the user model
-    const user = this
-    if (user.isModified('password')) {
-        user.password = await bcrypt.hash(user.password, 8)
-    }
-    next()
-})
+    return  database.run(sqlQuery);
+}//used to create user table
 
-userSchema.methods.generateAuthToken = async function() {
-    // Generate an auth token for the user
-    const user = this
-    const token = jwt.sign({_id: user._id}, config.secret, {expiresIn: 604800});//1week
-    await user.save()
-    return token
+
+
+
+
+
+const  findUserById  = (id, cb) => { 
+    return  database.get(`SELECT * FROM users WHERE id = ?`,[id], (err, row) => {
+            cb(err, row)
+    });
+}
+const  existUser  = (cb) => { 
+    return  database.get(`select count(*) from users`,(err, row) => {
+            cb(err, row)
+            console.log(row);
+    });
+}
+const  findUserByEmail  = (email, cb) => {
+    return  database.get(`SELECT * FROM users WHERE email = ?`,[email], (err, row) => {
+            cb(err, row)
+    });
 }
 
-userSchema.statics.findByCredentials = async (email, password) => {
-    // Search for a user by email and password.
-    const user = await User.findOne({ email} ).exec()
-    if (!user) {
-        throw new Error({ error: 'Invalid login credentials' })
-    }
-    const isPasswordMatch = await bcrypt.compare(password, user.password)
-    if (!isPasswordMatch) {
-        throw new Error({ error: 'Invalid login credentials' })
-    }
-    return user
+
+const  createUser  = (user, cb) => {
+    return  database.run('INSERT INTO users (name, email, password) VALUES (?,?,?)',user, (err) => {
+        cb(err)
+    });
 }
 
-const User = mongoose.model('User', userSchema)
-
-module.exports = User
-
+module.exports = {
+    findUserById : findUserById,
+    findUserByEmail: findUserByEmail,
+    createUser: createUser,
+    createUsersTable: createUsersTable,
+    existUser: existUser,
+}       

@@ -10,7 +10,7 @@ config = require('../config');
 
 router.get('/', async(req, res) => {
     res.send({
-        message: '/api portal', success: false});
+        message: '/api portal', success: true});
 }); //message at the root of the api 
 
 //api request to reboot a part of the rpi // soft or the rpi itself
@@ -95,5 +95,25 @@ router.get('/changepassword', async(req, res) => { //request to change wifi hots
     }
  
 });
+
+router.post('/setnordvpnauth', async(req, res) => { //request to change wifi hotspot password
+//sudo nano /etc/openvpn/auth.txt --> username / password
+//sudo nano /etc/openvpn/ovpn_udp/de75.nordvpn.com.udp.ovpn --> file going to be used
+//auth-user-pass --> auth-user-pass auth.txt
+
+});
+router.post('/listnordvpn', async(req, res) => { //request to change wifi hotspot password
+        //cd /etc/openvpn/ovpn_udp/
+//cd /etc/openvpn/ovpn_tcp/
+//ls -al
+});
+router.post('/connectnordvpn', async(req, res) => { //request to change wifi hotspot password
+//sudo openvpn path
+
+});
+
+
+
+
 
 module.exports = router;
