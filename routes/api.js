@@ -1,7 +1,8 @@
 const express = require('express')
 auth = require('./auth');
-const router = express.Router()
 const exec = require('child_process').exec
+const router = express.Router()
+
 const fs = require('fs');
 fonctions = require('./api-fonctions') //important functions
 config = require('../config');
@@ -97,19 +98,58 @@ router.get('/changepassword', async(req, res) => { //request to change wifi hots
 });
 
 router.post('/setnordvpnauth', async(req, res) => { //request to change wifi hotspot password
-//sudo nano /etc/openvpn/auth.txt --> username / password
-//sudo nano /etc/openvpn/ovpn_udp/de75.nordvpn.com.udp.ovpn --> file going to be used
-//auth-user-pass --> auth-user-pass auth.txt
+    if(req.query.password && req.query.username){
+    username = req.username;
+    password = req.password; 
+    fs.writeFile('/etc/openvpn/auth.txt', `${username}\n${password}`, function (err) { //write news
+    if(err) return res.json({success:false, message:"Error defining auth"});
+    res.json({success:true})
+  })
+    }else{
+        res.json({success: false, message:"Give username and password parameters !"})
+    }
+
 
 });
-router.post('/listnordvpn', async(req, res) => { //request to change wifi hotspot password
-        //cd /etc/openvpn/ovpn_udp/
-//cd /etc/openvpn/ovpn_tcp/
-//ls -al
+router.get('/listnordvpn', async(req, res) => { //request to change wifi hotspot password
+    if(req.query.type){
+        if(req.query.type = "udp"){
+            udplist = exec("ls -al /etc/openvpn/ovpn_udp/") //exec linux batch command to get connected devices
+            udplist.stdout.on('data', function(data) {
+                res.json({list: data, success: true});
+            });
+        }else if(req.query.type = "tcp"){
+            tcplist = exec("ls -al /etc/openvpn/ovpn_tcp/") //exec linux batch command to get connected devices
+            tcplist.stdout.on('data', function(data) {
+                res.json({list: data, success: true});
+            });
+        }else{
+            res.json({success: false, message: 'unknown type'})
+        }
+    }
+
 });
 router.post('/connectnordvpn', async(req, res) => { //request to change wifi hotspot password
-//sudo openvpn path
+    try{
+if(req.query.path){
+    ovpnpath = path //get the path
+    
+var data = fs.readFileSync(ovpnpath).toString().split("\n"); //get ovpn file
+data[20] = "auth-user-pass " +  "../auth.txt" ;
+var text = data.join("\n"); //reconstitute the conf file but with new auth.txt added -> now auth informations given automatically
 
+fs.writeFile(hostapdfile, text, function (err) { //write news
+  if (err) return callback(null, err);
+  callback('done',null)
+});
+    udplist = exec(`sudo openvpn ${path}`) //exec linux batch command to get connected devices
+
+}else{
+    res.json({success: false, message:"Give the path"})
+}
+    }catch(error){
+        res.json({success:false, message:error.toString()})
+    }
 });
 
 
