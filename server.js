@@ -27,7 +27,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.get('/', function(req, res) {
+app.get('/', async(req, res)=> {
+  console.log('trigerred')
   res.send('Portal of the api; /user   /api');
 });
 
