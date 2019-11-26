@@ -27,21 +27,20 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.get('/', async(req, res)=> {
+app.get('/', function(req, res) {
   console.log('trigerred')
-  res.send('Portal of the api; /user   /api');
+  res.json({message:'Portal of the api; /user   /api', success: true});
 });
-
 
 app.use('/user', userroute);
 app.use('/api',auth, apiroute);
 
-
+/*
 https.createServer({
   key: fs.readFileSync('server.key'),
   cert: fs.readFileSync('server.cert')
-}, app)
-.listen(config.port, function () {
+}, app)*/
+app.listen(config.port, function () {
   console.log(`Example app listening on port ${config.port}! Go to https://localhost:${config.port}`)
 })}
 start()

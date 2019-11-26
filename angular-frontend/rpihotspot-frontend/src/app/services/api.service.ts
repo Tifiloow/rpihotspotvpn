@@ -6,13 +6,13 @@ import { HttpClient } from '@angular/common/http';
 export class ApiService {
   req = {}
   constructor(private http: HttpClient) { }
-  testapi(){
+  testapi(cb){
 
-      this.req = this.http.get('https://localhost:3000/').subscribe((data)=>{
-        return data;
+      this.req = this.http.get('http://localhost:3000/').subscribe((data)=>{
+        cb(data)
       })
 
       }
       
-    }
+  }
     

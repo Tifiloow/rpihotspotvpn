@@ -12,7 +12,9 @@ export class AppComponent {
   title = 'rpihotspot-frontend';
   req = {}
   constructor(private api: ApiService){
-    this.api.testapi()
+    console.log(this.api.testapi((data)=>{
+      console.log(data);
+    }))
   }
 }
 
