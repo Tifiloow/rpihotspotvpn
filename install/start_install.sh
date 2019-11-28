@@ -7,7 +7,7 @@ sudo apt-get install openssl
 sudo apt-get install npm
 sudo apt-get install unzip
 sudo apt-get install openvpn -y
-sudo npm install body-parser sqlite3 bcryptjs express jsonwebtoken-y
+sudo npm install body-parser sqlite3 bcryptjs express jsonwebtoken cors-y
 #install requierements
 #add server.js to autostart
 sudo mv ../../rpihotspotvn /home/pi

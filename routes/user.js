@@ -24,7 +24,7 @@ router.post('/register', (req, res) => {
             success: false,
             message: 'Server error!'
         });
-        if (parseInt(user['count(*)']) > 0) {
+        if (false){//parseInt(user['count(*)']) > 0) {
             console.log(user['count(*)']);
             return res.json({
                 success: false,
@@ -61,6 +61,7 @@ router.post('/register', (req, res) => {
                     });
                 } catch (error) {
                     console.log(error);
+                    res.json({success: false, message:error.toString()})
                 }
             });
         }
@@ -113,7 +114,7 @@ router.get('/me', auth, (req, res) => {
     } catch (err) {
         res.json({
             success: false,
-            error: err.toString()
+            message: err.toString()
         });
     }
 })
