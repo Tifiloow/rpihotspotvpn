@@ -5,7 +5,7 @@
 <h3 *ngIf="!this.api.islogin"><button class="btn btn-primary" (click)="this.api.islogin = true; this.api.clear()">Goto Login</button></h3>
 <h3 *ngIf="this.api.islogin"><button class="btn btn-primary" (click)="this.api.islogin = false;this.api.clear()">Goto Register</button></h3>
 
-<form> <!--Not putting the onsubmit event, personally prefer handling simply on the button click-->
+<form (ngSubmit)="null"> <!--Not putting the onsubmit event, personally prefer handling simply on the button click-->
   <div class="form-group">
     <label for="email">Email address</label>
     <input [(ngModel)]="this.api.userform.email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" name="email" required >
@@ -20,7 +20,7 @@
     <input [(ngModel)]="this.api.userform.password" type="password" class="form-control" id="password" placeholder="Password" name="password" required>
   </div>
 
-  <button class="btn btn-primary" (click)="this.api.submit()">Submit</button> 
+  <button class="btn btn-primary" (click)="this.api.submit()">Envoyer</button> 
   <p><i>Note: This is a panel built for individuals, there may be some security issues.
         Creating an account is done once, youll have to manipulate directly on the machine to repare some problems with account.
         Contact me on github to add/request a feature github.com/tifiloow

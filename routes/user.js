@@ -19,10 +19,11 @@ usermodel.createUsersTable(); //initiate the user table if not exists
 
 
 router.post('/register', (req, res) => {
+    console.log("triggered");
     usermodel.existUser((err, user) => { //verify if already user exists
         if (err) return res.json({
             success: false,
-            message: 'Server error!'
+            message: 'Server error! - '
         });
         if (false){//parseInt(user['count(*)']) > 0) {
             console.log(user['count(*)']);
@@ -39,12 +40,12 @@ router.post('/register', (req, res) => {
                 try {
                     if (err) return res.json({
                         success: false,
-                        message: 'Server error!'
+                        message: err.toString(),
                     });
                     usermodel.findUserByEmail(email, (err, user) => {
                         if (err) return res.json({
                             success: false,
-                            message: 'Server error!'
+                            message: 'Server error! ---'
                         });
                         const expiresIn = 24 * 60 * 60;
                         const accessToken = jwt.sign({
@@ -76,7 +77,7 @@ router.post('/login', (req, res) => {
     usermodel.findUserByEmail(email, (err, user) => {
         if (err) return res.json({
             success: false,
-            message: 'Server error!'
+            message: 'Server error !'
         });
         if (!user) return res.json({
             success: false,
@@ -85,7 +86,7 @@ router.post('/login', (req, res) => {
         const result = bcrypt.compareSync(password, user.password);
         if (!result) return res.json({
             success: false,
-            message: 'password not valid!'
+            message: 'user not found !'
         });
         console.log(user);
         const expiresIn = 24 * 60 * 60;
@@ -118,6 +119,8 @@ router.get('/me', auth, (req, res) => {
         });
     }
 })
+
+
 module.exports = {
     router: router
 };

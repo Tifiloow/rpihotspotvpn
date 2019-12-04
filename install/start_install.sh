@@ -5,6 +5,7 @@ sudo systemctl stop dnsmasq
 sudo systemctl stop hostapd
 sudo apt-get install openssl
 sudo apt-get install npm
+sudo apt-get install node
 sudo apt-get install unzip
 sudo apt-get install openvpn -y
 sudo npm install body-parser sqlite3 bcryptjs express jsonwebtoken cors-y
