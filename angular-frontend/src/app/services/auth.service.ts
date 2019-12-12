@@ -1,16 +1,29 @@
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Router} from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Observable,of } from 'rxjs';
 let httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
     'Authorization': 'undefined'
   })
 };
+class user {
+  public success: boolean;
+  public user: any;
+  public token : string;
+  constructor(success,user,token){
+    this.success = success;
+    this.user = user;
+    this.token = token;
+  }
+}
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService { //vérifier le guard pour permettre de passer
   islogin = true;
   error = ""
@@ -18,11 +31,11 @@ export class AuthService { //vérifier le guard pour permettre de passer
   constructor(private http : HttpClient, private route: Router) { }
   login(email, password,cb ){
     let params = {email: email, password : password};
-    this.http.post('https://localhost:3000/user/login', params, httpOptions)
+    return this.http.post('https://localhost:3000/user/login', params, httpOptions)
     .subscribe((data)=>{
       cb(data, null)
     }, (error) =>{
-      cb(null, error.toString());
+      cb(null, error.toString()); //need to pass on observable someday
     });
   }
   register(name, email, password,cb ){
@@ -90,47 +103,62 @@ export class AuthService { //vérifier le guard pour permettre de passer
       })
     }
   }
-
-  logout(){
-    localStorage.setItem("token", "");
-    localStorage.setItem("logged", "False");
-    this.route.navigate(["auth"]);
-  }
-  isloggedin(cb):any{
-    this.me((data,error)=>{
-      if(error) return cb(null,error.toString());
-      if(data.success){
-        return cb(data,null);
-      }else{
-        return cb(null, "Error");
-      } //callback fdp
-    })
-  }
   clear(){
     //clear form inputs & errors
     this.userform = {name: "", password: "", email :""}
     this.error = "";
   }
+ 
 
-me(cb){
-  if(localStorage.getItem('token') && localStorage.getItem('logged') == "True"){
-    let httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'Authorization': localStorage.getItem('token'),
-      })
-    };
+  me(){
+    console.log("triggered");
+    if(localStorage.getItem('token') && localStorage.getItem('logged') == "True"){
+      let meOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': localStorage.getItem('token'),
+        })
+      };
+    return this.http.get<user>('https://localhost:3000/user/me', meOptions);
+  }else{
+    return of(new user(false, "",""));
+  }
+ 
+  }
+isloggedin():Observable<boolean>{
+  return this.me().pipe(map(data=>{ //pipe sur undefined 
+    console.log(data);
+    if(data.success){
+      console.log("renvoie oui")
+      return true; 
+    }else{
+      console.log("renvoie non")
+      return false;
+    }
+  }))
+}
 
-  this.http.get('https://localhost:3000/user/me', httpOptions)
-  .subscribe((data)=>{
-    cb(data,null)
-  },(error)=>{
-    cb(null,error.toString())
-  });
-   
+logout(){
+  localStorage.setItem("token", "");
+  localStorage.setItem("logged", "False");
+  this.route.navigate(["auth"]);
+}
 
 }
-}
-}
 
-
+/*
+      this.route.navigate(["auth"]);
+      return false;
+    this.auth.isloggedin().subscribe((islogged)=>{
+      if(islogged){
+        console.log("Guard let you pass")
+        return true; 
+      }else{
+    localStorage.setItem("token", ""); //set again, to be sure
+    localStorage.setItem("logged", "False");
+    this.route.navigate(["auth"]);
+    console.log("guard refused you...")
+    return false; 
+      }
+    })
+    */

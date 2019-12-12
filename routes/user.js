@@ -110,12 +110,13 @@ router.get('/me', auth, (req, res) => {
     try {
         res.json({
             success: true,
-            user: req.user
+            user: req.user,
+            token: req.token,
         });
     } catch (err) {
         res.json({
             success: false,
-            message: err.toString()
+            message: err.toString(),
         });
     }
 })
