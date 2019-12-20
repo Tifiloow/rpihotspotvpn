@@ -20,7 +20,7 @@ usermodel.createUsersTable(); //initiate the user table if not exists
 
 router.post('/register', (req, res) => {
     console.log("triggered");
-    usermodel.existUser((err, user) => { //verify if already user exists
+    /*usermodel.existUser((err, user) => { //verify if already user exists
         if (err) return res.json({
             success: false,
             message: 'Server error! - '
@@ -31,11 +31,15 @@ router.post('/register', (req, res) => {
                 success: false,
                 message: 'A user already exists on this machine'
             });
-        } else { //user dont exists
+        } else { */
+            //user dont exists
+            if(!(req.body.name && req.body.email && req.body.password)){
+                return res.json({success: false, message : "empty body"});
+            }
             const name = req.body.name;
             const email = req.body.email;
-            const password = bcrypt.hashSync(req.body.password);
-
+            const password = bcrypt.hashSync(String(req.body.password));
+            console.log(req.body);
             usermodel.createUser([name, email, password], (err) => {
                 try {
                     if (err) return res.json({
@@ -45,8 +49,9 @@ router.post('/register', (req, res) => {
                     usermodel.findUserByEmail(email, (err, user) => {
                         if (err) return res.json({
                             success: false,
-                            message: 'Server error! ---'
+                            message: 'Server error! '
                         });
+                        console.log(user);
                         const expiresIn = 24 * 60 * 60;
                         const accessToken = jwt.sign({
                             id: user.id
@@ -65,11 +70,11 @@ router.post('/register', (req, res) => {
                     res.json({success: false, message:error.toString()})
                 }
             });
-        }
+        //}
     });
 
 
-});
+//});
 
 router.post('/login', (req, res) => {
     const email = req.body.email;

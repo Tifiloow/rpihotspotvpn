@@ -4,7 +4,6 @@
 var config = require('./config');
 var fs = require('fs')
 var https = require('https');
-var winston = require('winston')
 express = require('express');
 const  sqlite3  =  require('sqlite3').verbose();
 const database = new sqlite3.Database("./rpihotspotvpn.db");
@@ -17,10 +16,9 @@ var cors = require('cors')
 
 function start(){
   app.use(cors())
-// support parsing of application/json type post data
+  app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-//support parsing of application/x-www-form-urlencoded post data
-app.use(bodyParser.urlencoded({ extended: true }));
+
 
 
 app.get('/', function(req, res) {
@@ -30,6 +28,10 @@ app.get('/', function(req, res) {
 
 app.use('/user', userroute);
 app.use('/api',auth, apiroute);
+app.post('/ping', function(req, res) {
+  console.log('trigerred')
+  res.json({body: req.body});
+});
 
 
 https.createServer({
