@@ -34,8 +34,9 @@ export class AuthService { //vérifier le guard pour permettre de passer
     return this.http.post('https://localhost:3000/user/login', params, httpOptions)
     .subscribe((data)=>{
       cb(data, null)
+      console.log(data);
     }, (error) =>{
-      cb(null, error.toString()); //need to pass on observable someday
+      cb(null, error.toString());
     });
   }
   register(name, email, password,cb ){
@@ -77,9 +78,8 @@ export class AuthService { //vérifier le guard pour permettre de passer
       this.login(this.userform.email, this.userform.password, (data, err)=>{
         if(err) { return this.error = err} //check for error while login
         if(data.success && data.access_token){
-          localStorage.setItem("token", data.access_token.toString());
-          localStorage.setItem("logged", "True"); //define pas
-          //this.route.navigate(["home"]); //route pas
+          localStorage.setItem("token", data.access_token);
+          this.route.navigate(["home"]);
         }else{
           console.log(data);
           this.error = data.message.toString();
@@ -94,9 +94,7 @@ export class AuthService { //vérifier le guard pour permettre de passer
         if(data.success && data.access_token){
           console.log("triggered")
           localStorage.setItem("token", data.access_token);
-          localStorage.setItem("logged", "True");
-          console.log("defined")
-          //this.route.navigate(["home"]);
+          this.route.navigate(["home"]);
         }else{
           this.error = data.message.toString()
         }
@@ -112,7 +110,7 @@ export class AuthService { //vérifier le guard pour permettre de passer
 
   me(){
     console.log("triggered");
-    if(localStorage.getItem('token') && localStorage.getItem('logged') == "True"){
+    if(localStorage.getItem('token')){
       let meOptions = {
         headers: new HttpHeaders({
           'Content-Type':  'application/json',
@@ -140,25 +138,7 @@ isloggedin():Observable<boolean>{
 
 logout(){
   localStorage.setItem("token", "");
-  localStorage.setItem("logged", "False");
   this.route.navigate(["auth"]);
 }
 
 }
-
-/*
-      this.route.navigate(["auth"]);
-      return false;
-    this.auth.isloggedin().subscribe((islogged)=>{
-      if(islogged){
-        console.log("Guard let you pass")
-        return true; 
-      }else{
-    localStorage.setItem("token", ""); //set again, to be sure
-    localStorage.setItem("logged", "False");
-    this.route.navigate(["auth"]);
-    console.log("guard refused you...")
-    return false; 
-      }
-    })
-    */
