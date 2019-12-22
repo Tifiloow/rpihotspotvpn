@@ -28,7 +28,7 @@ app.get('/', function(req, res) {
 
 app.use('/user', userroute);
 app.use('/api',auth, apiroute);
-app.post('/ping', function(req, res) {
+app.post('/ping', function(req, res) { //created for test purpose
   console.log('trigerred')
   res.json({body: req.body});
 });
