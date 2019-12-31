@@ -1,2 +1,0 @@
-sudo node server.js
-
