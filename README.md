@@ -5,6 +5,8 @@ It has the advantage of having a script installing itself everything needed to m
 
 It has too a panel to see connected users, stop the wifi (but keep the pannel on), start the wifi, and even add a vpn (in dev. system)
 
+#### Please test the program and report bugs - very easy to fix - create issues 
+
 ---
 ## How to install - On a rasberry pi
 *You must have git installed*
