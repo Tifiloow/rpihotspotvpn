@@ -1,5 +1,5 @@
 const  sqlite3  =  require('sqlite3').verbose();
-const database = new sqlite3.Database("../rpihotspotvpn.db");
+const database = new sqlite3.Database("./rpihotspotvpn.db");
 const  createUsersTable  = () => {
     const  sqlQuery  =  `
         CREATE TABLE IF NOT EXISTS users (

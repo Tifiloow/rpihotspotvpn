@@ -6,7 +6,6 @@ var fs = require('fs')
 var https = require('https');
 express = require('express');
 const  sqlite3  =  require('sqlite3').verbose();
-const database = new sqlite3.Database("./rpihotspotvpn.db");
 auth = require('./routes/auth')
 var userroute = require('./routes/user').router;
 bodyParser = require('body-parser');

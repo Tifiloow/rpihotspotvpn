@@ -40,7 +40,6 @@ What could be better/added easily :
 - verify security (it should be good, but can increase security in the login system by changing errors (for bruteforce and list usernames,...))
 - check the register system with the verification for only one user
 - Beautify javascript
-- Check why sqlite has a blackhole db
 
 
 -------------------
