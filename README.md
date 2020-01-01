@@ -31,8 +31,6 @@ The vpn system hasn't been implemented in the angular frontend.
 But it would be simply, because it's already done in the api for nordvpn(most known vpn)
 The nordvpn api system hasn't been tested too, but it can be done very quickly, everything already done, and just have to implement some requests in the frontend.
 
-*For personnal reasons, the project isn't finished*
-
 What could be better/added easily : 
 - verify start_install (not tested on my rasberry pi yet even if globally it should be fine)
 - add everything to uninstall.sh
