@@ -1,0 +1,20 @@
+<h1>Wifi page:</h1>
+<div class="form-group">
+    <label for="hostname">Change hostname</label>
+    <input type="text" class="form-control" id="hostname" #hostname>
+    <button (click)="this.changehostname(hostname.value)" class="btn btn-danger">Change hostname</button>
+  </div>
+<hr>
+<div class="form-group">
+    <label for="password">Change password</label>
+    <input type="text" class="form-control" id="password" #password>
+    <button (click)="this.changepassword(password.value)" class="btn btn-danger">Change password</button>
+  </div>
+<h2>
+    Wifi control:
+
+</h2>
+<p style="color :red;">{{this.statuserror}}</p>
+<h5>Wifi status : {{this.wifistatus}}</h5>
+<button class="btn btn-danger" (click)="this.stopwifi()">Stop wifi</button>
+<button class="btn btn-danger" (click)="this.startwifi()" >Start wifi</button>

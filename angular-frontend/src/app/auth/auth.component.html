@@ -1,0 +1,35 @@
+
+
+<h1 *ngIf="!this.auth.islogin">Register</h1>
+<h1 *ngIf="this.auth.islogin">Login</h1>
+<h3 *ngIf="!this.auth.islogin"><button class="btn btn-primary" (click)="this.auth.islogin = true; this.auth.clear()">Goto Login</button></h3>
+<h3 *ngIf="this.auth.islogin"><button class="btn btn-primary" (click)="this.auth.islogin = false;this.auth.clear()">Goto Register</button></h3>
+
+<form (ngSubmit)="null"> <!--Not putting the onsubmit event, personally prefer handling simply on the button click-->
+  <div class="form-group">
+    <label for="email">Email address</label>
+    <input [(ngModel)]="this.auth.userform.email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" name="email" required >
+    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  </div>
+  <div class="form-group" *ngIf="!this.auth.islogin"> <!--do not show if the user is loging in-->
+        <label for="name">Username</label>
+        <input [(ngModel)]="this.auth.userform.name" type="text" class="form-control" id="name" placeholder="name" name="name" required>
+      </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input [(ngModel)]="this.auth.userform.password" type="password" class="form-control" id="password" placeholder="Password" name="password" required>
+  </div>
+
+  <button class="btn btn-primary" (click)="this.auth.submit()">Envoyer</button> 
+  <p><i>Note: This is a panel built for individuals, there may be some security issues.
+        Creating an account is done once, youll have to manipulate directly on the machine to repare some problems with account.
+        Contact me on github to add/request a feature github.com/tifiloow
+    
+    </i></p>
+
+    <div style="color:red" id="error">
+    {{this.auth.error}}
+    </div>
+</form>
+
+<!--Must add the form verification in frontend-->

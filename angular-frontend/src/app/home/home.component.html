@@ -1,0 +1,16 @@
+<h2>You:</h2>
+
+
+<div *ngIf="this.me.success">
+    <h2>You are logged in ! Enjoy</h2>
+    Name  :{{this.me.user.name}}<br>
+    Email :{{this.me.user.email}}
+</div>
+
+
+
+<div *ngIf="!this.me.success">
+    <h2>Loading</h2>
+</div>
+
+
