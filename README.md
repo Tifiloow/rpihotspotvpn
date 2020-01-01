@@ -13,7 +13,7 @@ It has too a panel to see connected users, stop the wifi (but keep the pannel on
 `sudo git clone https://github.com/tifiloow/rpihotspotvpn`
 Go into the install folder of the project && start start_install.sh:
 `cd /rpihotspotvpn/install && chmod +x start_install.sh && ./start_install.sh`
-It will ask some questions, generate some keys,  and finally ask to reboot the pi.
+It will ask some questions, generate some keys,  and finally it will ask to reboot the pi.
 #### Note: A uninstall file exists
 
 ---
