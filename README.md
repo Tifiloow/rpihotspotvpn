@@ -3,7 +3,7 @@ Rpihotspotvpn is a script using express, nodejs, and angular.
 It permits to create a wifi hostpot with a rasberry pi.
 It has the advantage of having a script installing itself everything needed to make a wifi hotspot with a rasberry pi (3 or +) with hostapd, and dnsmasq.
 
-It has too a panel to see connected users, stop the wifi (but keep the pannel on), start the wifi, and even add a vpn (in dev. system)
+It has a panel to see connected users, stop the wifi (but keep the pannel on), start the wifi, and even add a vpn (in dev. system)
 
 #### Please test the program and report bugs - very easy to fix - create issues 
 
@@ -23,10 +23,10 @@ Go on your phone or your computer, and visit:
 https://**rpi-ip**:2000/
 Tell the navigator this website is safe (it's the api) and it works !
 **Enjoy !**
-# /!\Go in config.js and modify the secret ! /!\
+###### /!\Go in config.js and modify the secret ! Very important for the security /!\
 ---
-### Note of the developper:
-The projecti is not finished yet !
+### Note:
+The project is not finished yet !
 The vpn system hasn't been implemented in the angular frontend.
 But it would be simply, because it's already done in the api for nordvpn(most known vpn)
 The nordvpn api system hasn't been tested too, but it can be done very quickly, everything already done, and just have to implement some requests in the frontend.
